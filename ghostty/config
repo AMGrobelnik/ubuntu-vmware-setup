@@ -1,0 +1,16 @@
+# Ghostty Terminal Configuration
+# Set fish as default shell
+shell-integration = fish
+command = /usr/bin/fish
+
+# Theme
+theme = catppuccin-mocha.conf
+
+# Optional: Some nice defaults
+font-family = monospace
+font-size = 12
+window-padding-x = 2
+window-padding-y = 2
+
+# Tab bar position
+gtk-tabs-location = bottom

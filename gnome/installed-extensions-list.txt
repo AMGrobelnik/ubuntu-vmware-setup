@@ -1,0 +1,7 @@
+arcmenu@arcmenu.com
+blur-my-shell@aunetx
+clipboard-indicator@tudmotu.com
+dash-to-panel@jderose9.github.com
+tactile@lundal.io
+tilingshell@ferrarodomenico.com
+Vitals@CoreCoding.com

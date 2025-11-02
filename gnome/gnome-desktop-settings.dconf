@@ -1,0 +1,79 @@
+[a11y]
+always-show-universal-access-status=false
+
+[app-folders]
+folder-children=['Utilities', 'YaST', 'Pardus']
+
+[app-folders/folders/Pardus]
+categories=['X-Pardus-Apps']
+name='X-Pardus-Apps.directory'
+translate=true
+
+[app-folders/folders/Utilities]
+apps=['gnome-abrt.desktop', 'gnome-system-log.desktop', 'nm-connection-editor.desktop', 'org.gnome.baobab.desktop', 'org.gnome.Connections.desktop', 'org.gnome.DejaDup.desktop', 'org.gnome.Dictionary.desktop', 'org.gnome.DiskUtility.desktop', 'org.gnome.Evince.desktop', 'org.gnome.FileRoller.desktop', 'org.gnome.fonts.desktop', 'org.gnome.Loupe.desktop', 'org.gnome.seahorse.Application.desktop', 'org.gnome.tweaks.desktop', 'org.gnome.Usage.desktop', 'vinagre.desktop']
+categories=['X-GNOME-Utilities']
+name='X-GNOME-Utilities.directory'
+translate=true
+
+[app-folders/folders/YaST]
+categories=['X-SuSE-YaST']
+name='suse-yast.directory'
+translate=true
+
+[background]
+primary-color='#2c001e'
+secondary-color='#2c001e'
+
+[input-sources]
+sources=[('xkb', 'us')]
+xkb-options=@as []
+
+[interface]
+color-scheme='prefer-dark'
+cursor-size=24
+gtk-theme='Yaru-blue-dark'
+icon-theme='Yaru-blue'
+
+[notifications]
+application-children=['gnome-initial-setup', 'org-gnome-fileroller', 'google-chrome', 'org-gnome-terminal-preferences', 'org-gnome-systemmonitor', 'org-gnome-extensions', 'org-gnome-settings']
+
+[notifications/application/gnome-initial-setup]
+application-id='gnome-initial-setup.desktop'
+
+[notifications/application/google-chrome]
+application-id='google-chrome.desktop'
+
+[notifications/application/org-gnome-extensions]
+application-id='org.gnome.Extensions.desktop'
+
+[notifications/application/org-gnome-fileroller]
+application-id='org.gnome.FileRoller.desktop'
+
+[notifications/application/org-gnome-settings]
+application-id='org.gnome.Settings.desktop'
+
+[notifications/application/org-gnome-systemmonitor]
+application-id='org.gnome.SystemMonitor.desktop'
+
+[notifications/application/org-gnome-terminal-preferences]
+application-id='org.gnome.Terminal.Preferences.desktop'
+
+[peripherals/mouse]
+double-click=800
+
+[peripherals/touchpad]
+two-finger-scrolling-enabled=true
+
+[screensaver]
+primary-color='#2c001e'
+secondary-color='#2c001e'
+
+[search-providers]
+sort-order=['org.gnome.Contacts.desktop', 'org.gnome.Documents.desktop', 'org.gnome.Nautilus.desktop']
+
+[session]
+idle-delay=uint32 0
+
+[wm/keybindings]
+maximize=@as []
+unmaximize=@as []
