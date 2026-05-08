@@ -1,10 +1,5 @@
-tilingshell@ferrarodomenico.com
-dash-to-panel@jderose9.github.com
-Vitals@CoreCoding.com
+ubuntu-dock@ubuntu.com
 clipboard-indicator@tudmotu.com
-blur-my-shell@aunetx
+dash-to-panel@jderose9.github.com
 arcmenu@arcmenu.com
-ding@rastersoft.com
-ubuntu-appindicators@ubuntu.com
-user-theme@gnome-shell-extensions.gcampax.github.com
-workspace-indicator@gnome-shell-extensions.gcampax.github.com
+Vitals@CoreCoding.com

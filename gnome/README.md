@@ -1,197 +1,99 @@
 # GNOME Desktop Setup Guide
 
-Complete GNOME desktop environment configuration for Ubuntu 22.04 LTS.
+GNOME 46 on Ubuntu 24.04 LTS. Captures the live extension set, theme, and dconf state of this VM.
 
-## Overview
+## Theme
 
-This guide covers GNOME extensions, desktop customization, and appearance settings.
-
-## Theme Configuration
-
-### Current Theme Settings
-
-- **GTK Theme**: Yaru-blue-dark
-- **Icon Theme**: Yaru-blue
-- **Color Scheme**: Dark mode (prefer-dark)
-- **Cursor Size**: 24
-
-### Apply Theme Settings
+| Setting       | Value             |
+|---------------|-------------------|
+| GTK theme     | Yaru-blue-dark    |
+| Icon theme    | Yaru-blue         |
+| Color scheme  | prefer-dark       |
 
 ```bash
-# Set dark mode
 gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
-
-# Set GTK theme
-gsettings set org.gnome.desktop.interface gtk-theme 'Yaru-blue-dark'
-
-# Set icon theme
-gsettings set org.gnome.desktop.interface icon-theme 'Yaru-blue'
+gsettings set org.gnome.desktop.interface gtk-theme    'Yaru-blue-dark'
+gsettings set org.gnome.desktop.interface icon-theme   'Yaru-blue'
 ```
 
-## GNOME Extensions
+## Extensions
 
-### Installed Extensions
+### Currently enabled (matches `gsettings get org.gnome.shell enabled-extensions`)
 
-1. **Tiling Shell** (`tilingshell@ferrarodomenico.com`)
-   - Window tiling management
-   - Automatic layout organization
+1. **Ubuntu Dock** (`ubuntu-dock@ubuntu.com`) — default Ubuntu dock.
+2. **Clipboard Indicator** (`clipboard-indicator@tudmotu.com`) — clipboard history.
+3. **Dash to Panel** (`dash-to-panel@jderose9.github.com`) — single-bar taskbar.
+4. **ArcMenu** (`arcmenu@arcmenu.com`) — application menu.
+5. **Vitals** (`Vitals@CoreCoding.com`) — CPU / RAM / temp / network in the panel.
 
-2. **Dash to Panel** (`dash-to-panel@jderose9.github.com`)
-   - Taskbar-style panel
-   - Combines top bar and dash
+> Note: `ubuntu-dock` and `dash-to-panel` are both enabled; Dash to Panel takes precedence visually.
 
-3. **Vitals** (`Vitals@CoreCoding.com`)
-   - System monitoring in top bar
-   - CPU, memory, temperature display
+See [`enabled-extensions.txt`](./enabled-extensions.txt) for the canonical list and [`installed-extensions-list.txt`](./installed-extensions-list.txt) for everything currently installed (incl. inactive ones).
 
-4. **Clipboard Indicator** (`clipboard-indicator@tudmotu.com`)
-   - Clipboard history manager
-   - Access recent copies
-
-5. **Blur My Shell** (`blur-my-shell@aunetx`)
-   - Beautiful blur effects
-   - Panel and overview blur
-
-6. **ArcMenu** (`arcmenu@arcmenu.com`)
-   - Application launcher menu
-   - Customizable layouts
-
-7. **Desktop Icons NG (DING)** (`ding@rastersoft.com`)
-   - Desktop icons support
-   - File management on desktop
-
-8. **Ubuntu AppIndicators** (`ubuntu-appindicators@ubuntu.com`)
-   - System tray support
-   - Application indicators
-
-9. **User Themes** (`user-theme@gnome-shell-extensions.gcampax.github.com`)
-   - Custom shell theme support
-
-10. **Workspace Indicator** (`workspace-indicator@gnome-shell-extensions.gcampax.github.com`)
-    - Virtual desktop indicator
-
-### Install Extensions
+### Install the extension manager
 
 ```bash
-# Install extension manager
 sudo apt install gnome-shell-extension-manager
-
-# Or install extensions via command line
-# (Use the extension IDs from enabled-extensions.txt)
+# Then add the IDs above via the GUI, or via `gnome-extensions install`.
 ```
 
-## Desktop Settings
+## Backups in this directory
 
-### Power Management
+| File                              | Contents                                                                  |
+|-----------------------------------|---------------------------------------------------------------------------|
+| `enabled-extensions.txt`          | List of enabled extensions (the gsettings value, one per line)            |
+| `installed-extensions-list.txt`   | Output of `gnome-extensions list` — everything installed                  |
+| `all-extension-settings.dconf`    | `dconf dump /org/gnome/shell/extensions/` — every extension's settings    |
+| `gnome-desktop-settings.dconf`    | `dconf dump /org/gnome/desktop/` — desktop-wide settings                  |
+| `restore-settings.sh`             | One-shot restore script (loads dconf + enables extensions)                |
 
-```bash
-# Disable screen timeout
-gsettings set org.gnome.desktop.session idle-delay 0
-```
-
-### Input Sources
-
-```bash
-# Set keyboard layout to US
-gsettings set org.gnome.desktop.input-sources sources "[('xkb', 'us')]"
-```
-
-### Mouse & Touchpad
+### Regenerate backups (run from this dir on the live machine)
 
 ```bash
-# Double-click speed
-gsettings set org.gnome.desktop.peripherals.mouse double-click 800
-
-# Enable two-finger scrolling on touchpad
-gsettings set org.gnome.desktop.peripherals.touchpad two-finger-scrolling-enabled true
-```
-
-## Backup & Restore
-
-### Backup Current Settings
-
-```bash
-# Backup all extension settings
 dconf dump /org/gnome/shell/extensions/ > all-extension-settings.dconf
-
-# Backup desktop settings
-dconf dump /org/gnome/desktop/ > gnome-desktop-settings.dconf
-
-# List enabled extensions
-gsettings get org.gnome.shell enabled-extensions > enabled-extensions.txt
+dconf dump /org/gnome/desktop/           > gnome-desktop-settings.dconf
+gsettings get org.gnome.shell enabled-extensions \
+  | tr -d "[]'" | tr ',' '\n' | sed 's/^ *//' | grep -v '^$' \
+  > enabled-extensions.txt
+gnome-extensions list > installed-extensions-list.txt
 ```
 
-### Restore Settings
+### Restore on a fresh install
 
 ```bash
-# Restore extension settings
-dconf load /org/gnome/shell/extensions/ < all-extension-settings.dconf
-
-# Restore desktop settings
-dconf load /org/gnome/desktop/ < gnome-desktop-settings.dconf
-
-# Or use the restore script
+# 1. Install all extensions in installed-extensions-list.txt via the
+#    Extension Manager GUI (binaries are NOT in this repo).
+# 2. Run the restore script:
 ./restore-settings.sh
+# 3. Log out and log back in (Wayland needs a fresh session for some changes).
 ```
 
-## Configuration Files
-
-- `enabled-extensions.txt` - List of enabled GNOME extensions
-- `all-extension-settings.dconf` - All extension settings backup
-- `gnome-desktop-settings.dconf` - Desktop environment settings
-- `restore-settings.sh` - Automated restore script
-
-## Window Management
-
-### Disabled Keybindings
-
-The following keybindings are disabled (to avoid conflicts with extensions):
+## Useful one-off settings (already applied here)
 
 ```bash
-# Disable default maximize/unmaximize
-gsettings set org.gnome.desktop.wm.keybindings maximize "[]"
+# No screen idle (VM stays awake)
+gsettings set org.gnome.desktop.session idle-delay 0
+
+# US keyboard layout
+gsettings set org.gnome.desktop.input-sources sources "[('xkb', 'us')]"
+
+# Disable conflict-prone WM keybindings (some are reclaimed by extensions)
+gsettings set org.gnome.desktop.wm.keybindings maximize   "[]"
 gsettings set org.gnome.desktop.wm.keybindings unmaximize "[]"
 ```
 
-## Panel Configuration
-
-With **Dash to Panel** extension:
-- Taskbar at bottom of screen
-- Application icons in panel
-- System indicators on right
-- Date/time in center
-
 ## Tips
 
-1. **Reload GNOME Shell**: Press `Alt+F2`, type `r`, press Enter (X11 only)
-2. **Extension Settings**: Use Extensions app or `gnome-extensions-app`
-3. **Backup Regularly**: Run backup commands before major changes
-4. **Theme Compatibility**: Ensure extensions support current GNOME version
+- **Reload GNOME Shell**: only on X11 (`Alt+F2`, type `r`). On Wayland (the default here), log out / log back in.
+- **Per-extension reset**: `dconf reset -f /org/gnome/shell/extensions/<id>/`.
+- **Full desktop reset**: `dconf reset -f /org/gnome/desktop/`.
 
-## Troubleshooting
+## System info
 
-### Extensions Not Loading
-
-```bash
-# Check GNOME Shell version
-gnome-shell --version
-
-# Restart GNOME Shell (X11)
-Alt+F2 → r
-
-# Or logout/login (Wayland)
-```
-
-### Reset to Defaults
-
-```bash
-# Reset all desktop settings
-dconf reset -f /org/gnome/desktop/
-
-# Reset specific extension
-dconf reset -f /org/gnome/shell/extensions/EXTENSION-NAME/
-```
+- **OS**: Ubuntu 24.04 LTS (Noble)
+- **Shell**: GNOME Shell 46.0
+- **Display**: Wayland
 
 ---
 
-**Note**: All backup files in this directory were created on November 1, 2025 and reflect the working configuration.
+Backup files in this directory were regenerated from the live VM in May 2026.

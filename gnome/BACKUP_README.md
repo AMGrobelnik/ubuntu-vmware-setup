@@ -1,115 +1,75 @@
-# GNOME Setup Backup
+# GNOME Backup
 
-**Backup Date:** $(date)
-**System:** Ubuntu 22.04 LTS with GNOME 46.0
+**System:** Ubuntu 24.04 LTS, GNOME Shell 46.0, Wayland.
 
-## What's Backed Up
+## What's backed up
 
-This backup contains your complete GNOME extensions setup, including:
+A snapshot of the GNOME extensions and dconf state on the live VM:
 
-### Installed Extensions
-1. **Dash to Panel** - Windows-like taskbar at bottom
-2. **Vitals** - System monitor (CPU, RAM, Temp, Network)
-3. **Clipboard Indicator** - Clipboard history
-4. **Blur my Shell** - Transparency/blur effects
-5. **ArcMenu** - Start menu
-6. **Tiling Shell** - Window tiling
-7. **Desktop Icons NG (DING)** - Desktop icons
-8. **AppIndicator Support** - System tray support
-9. **User Themes** - Custom theme support
-10. **Workspace Indicator** - Workspace switcher
+### Enabled extensions (canonical list)
 
-### Backup Files
+1. **Ubuntu Dock** — default Ubuntu dock
+2. **Clipboard Indicator** — clipboard history
+3. **Dash to Panel** — single-bar taskbar at the bottom
+4. **ArcMenu** — application menu (Windows-like start menu)
+5. **Vitals** — CPU / RAM / temp / network panel widget
 
-- `all-extension-settings.dconf` - All extension configurations
-- `gnome-desktop-settings.dconf` - GNOME desktop settings
-- `enabled-extensions.txt` - List of enabled extensions
-- `installed-extensions-list.txt` - List of installed extensions
-- `restore-settings.sh` - Automated restore script
+See [`enabled-extensions.txt`](./enabled-extensions.txt) and [`installed-extensions-list.txt`](./installed-extensions-list.txt).
 
-## How to Restore
+### Files
 
-### Quick Restore (if extensions are already installed)
+| File                              | What it is                                                             |
+|-----------------------------------|------------------------------------------------------------------------|
+| `all-extension-settings.dconf`    | All extension configs (`dconf dump /org/gnome/shell/extensions/`)      |
+| `gnome-desktop-settings.dconf`    | Desktop-wide settings (`dconf dump /org/gnome/desktop/`)               |
+| `enabled-extensions.txt`          | Canonical enabled list (gsettings value, one per line)                 |
+| `installed-extensions-list.txt`   | Everything currently installed (`gnome-extensions list`)               |
+| `restore-settings.sh`             | One-shot restore script                                                |
+
+## Restore
+
+### Quick (extensions already installed)
 
 ```bash
-cd ~/Projects/ubuntu-setup/backups
 ./restore-settings.sh
+# then log out and back in
 ```
 
-Then log out and log back in.
-
-### Full Restore (fresh system)
-
-If you're on a fresh Ubuntu install, you need to:
-
-1. **Install the extensions first:**
-   ```bash
-   cd ~/Projects/ubuntu-setup
-   # Re-download and install extensions using the original scripts
-   ```
-
-2. **Then restore settings:**
-   ```bash
-   cd ~/Projects/ubuntu-setup/backups
-   ./restore-settings.sh
-   ```
-
-3. **Log out and log back in**
-
-### Manual Restore
-
-If the script doesn't work, you can manually restore:
+### Fresh install
 
 ```bash
-# Restore extension settings
-dconf load /org/gnome/shell/extensions/ < all-extension-settings.dconf
+# 1. Install the extensions (binaries aren't in this repo)
+sudo apt install gnome-shell-extension-manager
+# Use the GUI to install everything in installed-extensions-list.txt,
+# or the gnome-extensions CLI.
 
-# Restore desktop settings
-dconf load /org/gnome/desktop/ < gnome-desktop-settings.dconf
+# 2. Restore the settings
+./restore-settings.sh
 
-# Enable extensions
-gnome-extensions enable dash-to-panel@jderose9.github.com
-gnome-extensions enable Vitals@CoreCoding.com
-gnome-extensions enable clipboard-indicator@tudmotu.com
-gnome-extensions enable blur-my-shell@aunetx
-gnome-extensions enable arcmenu@arcmenu.com
-gnome-extensions enable tilingshell@ferrarodomenico.com
-gnome-extensions enable ding@rastersoft.com
-gnome-extensions enable ubuntu-appindicators@ubuntu.com
-gnome-extensions enable user-theme@gnome-shell-extensions.gcampax.github.com
-gnome-extensions enable workspace-indicator@gnome-shell-extensions.gcampax.github.com
+# 3. Log out and back in
 ```
 
-## Your Current Setup
+### Manual
 
-**Panel Configuration:**
-- Bottom panel only (no top panel)
-- Your taskbar layout as configured via Dash to Panel GUI
+```bash
+dconf load /org/gnome/shell/extensions/ < all-extension-settings.dconf
+dconf load /org/gnome/desktop/           < gnome-desktop-settings.dconf
 
-**Extensions Active:**
-- All extensions listed above are enabled
-
-**Special Configurations:**
-- Session auto-save enabled
-- Accessibility icon hidden
-- Clipboard history: 100 items
+gnome-extensions enable ubuntu-dock@ubuntu.com
+gnome-extensions enable clipboard-indicator@tudmotu.com
+gnome-extensions enable dash-to-panel@jderose9.github.com
+gnome-extensions enable arcmenu@arcmenu.com
+gnome-extensions enable Vitals@CoreCoding.com
+```
 
 ## Notes
 
-- This backup is text-based (dconf format)
-- Safe to version control with git
-- Can be restored on any Ubuntu 22.04+ system with GNOME
-- Extension binaries are NOT included (only settings)
-- You'll need to re-download extensions if installing on a new system
+- Backup is text-only (dconf format). Safe to commit.
+- Extension binaries are **not** included — install them on the target system first.
+- Regenerate the backup any time with the commands in [`README.md`](./README.md).
 
 ## Troubleshooting
 
-If restore doesn't work:
-1. Make sure all extensions are installed first
-2. Try logging out and back in
-3. Check extension compatibility with your GNOME version
-4. Manually enable extensions one by one
-
----
-
-**Backup complete!** Your settings are safe in this directory.
+1. Make sure all extensions are installed before restoring.
+2. Wayland: log out and back in for changes to take effect.
+3. Extensions silently fail when the GNOME version is incompatible — check `gnome-shell --version` matches what each extension supports on extensions.gnome.org.

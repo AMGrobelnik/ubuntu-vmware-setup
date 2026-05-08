@@ -1,12 +1,15 @@
 [arcmenu]
 menu-button-appearance='Icon'
 menu-layout='Eleven'
+pinned-apps=[{'id': 'firefox.desktop'}, {'id': 'org.gnome.Terminal.desktop'}, {'id': 'gnome-extensions prefs arcmenu@arcmenu.com', 'name': 'ArcMenu Settings', 'icon': 'ArcMenu_ArcMenuIcon'}, {'id': 'ghostty_ghostty.desktop'}, {'id': 'snap-store_snap-store.desktop'}, {'id': 'org.gnome.tweaks.desktop'}, {'id': 'com.mattjakeman.ExtensionManager.desktop'}, {'id': 'opera.desktop'}]
 prefs-visible-page=0
+recently-installed-apps=['x11vnc.desktop', 'fish.desktop', 'htop.desktop', 'texdoctk.desktop', 'thunderbird_thunderbird.desktop', 'com.google.Chrome.desktop', 'jupyterlab.desktop', 'jupyter-notebook.desktop', 'btop.desktop', 'ghostty_ghostty.desktop']
 search-entry-border-radius=(true, 25)
 show-update-notification-v64=false
-update-notifier-project-version=69
+update-notifier-project-version=71
 
 [blur-my-shell]
+rounded-blur-found=false
 settings-version=2
 
 [blur-my-shell/appfolder]
@@ -51,10 +54,11 @@ show-mounts-network=false
 [dash-to-panel]
 animate-appicon-hover-animation-extent={'RIPPLE': 4, 'PLANK': 4, 'SIMPLE': 1}
 dot-position='BOTTOM'
-extension-version=72
+extension-version=73
 hotkeys-overlay-combo='TEMPORARILY'
-panel-anchors='{"unknown-unknown":"MIDDLE"}'
-panel-element-positions='{"unknown-unknown":[{"element":"showAppsButton","visible":true,"position":"centered"},{"element":"activitiesButton","visible":false,"position":"centered"},{"element":"leftBox","visible":true,"position":"centered"},{"element":"taskbar","visible":true,"position":"centered"},{"element":"centerBox","visible":true,"position":"stackedBR"},{"element":"rightBox","visible":true,"position":"stackedBR"},{"element":"dateMenu","visible":true,"position":"stackedBR"},{"element":"systemMenu","visible":false,"position":"stackedBR"},{"element":"desktopButton","visible":false,"position":"stackedBR"}]}'
+intellihide=false
+panel-anchors='{"unknown-unknown":"MIDDLE","Virtual-2":"MIDDLE"}'
+panel-element-positions='{"unknown-unknown":[{"element":"showAppsButton","visible":true,"position":"centered"},{"element":"activitiesButton","visible":false,"position":"centered"},{"element":"leftBox","visible":true,"position":"centered"},{"element":"taskbar","visible":true,"position":"centered"},{"element":"centerBox","visible":true,"position":"stackedBR"},{"element":"rightBox","visible":true,"position":"stackedBR"},{"element":"systemMenu","visible":true,"position":"stackedBR"},{"element":"dateMenu","visible":true,"position":"stackedBR"},{"element":"desktopButton","visible":false,"position":"stackedBR"}]}'
 panel-lengths='{}'
 panel-positions='{}'
 panel-sizes='{}'
@@ -121,17 +125,22 @@ toggle-tiling-popup=['<Super>y']
 window-gap=0
 
 [tilingshell]
+cycle-layouts-backward=['<Shift>']
+inner-gaps=uint32 0
 last-version-name-installed='17.0'
-layouts-json='[{"id":"Layout 1","tiles":[{"x":0,"y":0,"width":0.22,"height":0.5,"groups":[1,2]},{"x":0,"y":0.5,"width":0.22,"height":0.5,"groups":[1,2]},{"x":0.22,"y":0,"width":0.56,"height":1,"groups":[2,3]},{"x":0.78,"y":0,"width":0.22,"height":0.5,"groups":[3,4]},{"x":0.78,"y":0.5,"width":0.22,"height":0.5,"groups":[3,4]}]},{"id":"Layout 2","tiles":[{"x":0,"y":0,"width":0.22,"height":1,"groups":[1]},{"x":0.22,"y":0,"width":0.56,"height":1,"groups":[1,2]},{"x":0.78,"y":0,"width":0.22,"height":1,"groups":[2]}]},{"id":"Layout 3","tiles":[{"x":0,"y":0,"width":0.33,"height":1,"groups":[1]},{"x":0.33,"y":0,"width":0.67,"height":1,"groups":[1]}]},{"id":"Layout 4","tiles":[{"x":0,"y":0,"width":0.67,"height":1,"groups":[1]},{"x":0.67,"y":0,"width":0.33,"height":1,"groups":[1]}]},{"id":"4561948","tiles":[{"x":0,"y":0,"width":0.4708333333333333,"height":1,"groups":[1]},{"x":0.4708333333333333,"y":0,"width":0.2645833333333334,"height":1,"groups":[2,1]},{"x":0.7354166666666667,"y":0,"width":0.2645833333333332,"height":1,"groups":[2]}]}]'
-overridden-settings="{\"org.gnome.mutter.keybindings\":{\"toggle-tiled-right\":\"['<Super>Right']\",\"toggle-tiled-left\":\"['<Super>Left']\"},\"org.gnome.desktop.wm.keybindings\":{\"maximize\":\"@as []\",\"unmaximize\":\"@as []\"},\"org.gnome.mutter\":{\"edge-tiling\":\"true\"}}"
+layouts-json='[{"id":"Layout 1","tiles":[{"x":0,"y":0,"width":0.22,"height":0.5,"groups":[1,2]},{"x":0,"y":0.5,"width":0.22,"height":0.5,"groups":[1,2]},{"x":0.22,"y":0,"width":0.56,"height":1,"groups":[2,3]},{"x":0.78,"y":0,"width":0.22,"height":0.5,"groups":[3,4]},{"x":0.78,"y":0.5,"width":0.22,"height":0.5,"groups":[3,4]}]},{"id":"Layout 2","tiles":[{"x":0,"y":0,"width":0.22,"height":1,"groups":[1]},{"x":0.22,"y":0,"width":0.56,"height":1,"groups":[1,2]},{"x":0.78,"y":0,"width":0.22,"height":1,"groups":[2]}]},{"id":"Layout 3","tiles":[{"x":0,"y":0,"width":0.33,"height":1,"groups":[1]},{"x":0.33,"y":0,"width":0.67,"height":1,"groups":[1]}]},{"id":"Layout 4","tiles":[{"x":0,"y":0,"width":0.67,"height":1,"groups":[1]},{"x":0.67,"y":0,"width":0.33,"height":1,"groups":[1]}]},{"id":"4561948","tiles":[{"x":0,"y":0,"width":0.4708333333333333,"height":1,"groups":[1]},{"x":0.4708333333333333,"y":0,"width":0.2645833333333334,"height":1,"groups":[2,1]},{"x":0.7354166666666667,"y":0,"width":0.2645833333333332,"height":1,"groups":[2]}]},{"id":"637750","tiles":[{"x":0,"y":0,"width":0.3333333333333333,"height":1,"groups":[2]},{"x":0.6666666666666666,"y":0,"width":0.3333333333333329,"height":1,"groups":[1]},{"x":0.3333333333333333,"y":0,"width":0.3333333333333333,"height":1,"groups":[1,2]}]},{"id":"105687783","tiles":[{"x":0,"y":0,"width":0.5,"height":1,"groups":[1]},{"x":0.5,"y":0,"width":0.49999999999999956,"height":1,"groups":[1]}]}]'
+outer-gaps=uint32 0
+overridden-settings='{}'
 selected-layouts=[['Layout 1'], ['Layout 1']]
+snap-assistant-threshold=90
+window-use-custom-border-color=false
 
 [vitals]
 alphabetize=false
 fixed-widths=true
 hide-icons=false
 hide-zeros=false
-hot-sensors=['_processor_usage_', '_memory_usage_', '__network-rx_max__', '__network-tx_max__']
+hot-sensors=['_processor_usage_', '_memory_usage_', '_network-tx_ens160_tx_', '_network-rx_ens160_rx_', '_storage_free_']
 icon-style=1
 memory-measurement=0
 menu-centered=false

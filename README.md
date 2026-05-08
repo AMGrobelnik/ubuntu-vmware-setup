@@ -1,72 +1,70 @@
-# Ubuntu 22.04 LTS Setup Guide
+# Ubuntu VMware Setup Guide
 
-Complete setup documentation for Ubuntu 22.04 LTS workstation configuration.
+Complete setup documentation for an Ubuntu 24.04 LTS workstation running in VMware (developer environment).
 
 ## Overview
 
-This repository contains guides and configurations for setting up a modern development environment on Ubuntu 22.04 LTS.
+This repository captures the live configuration of a working Ubuntu 24.04 LTS dev VM. Each subdirectory contains a README and the actual config files copied from the running system, so a fresh VM can be brought up to the same state without guesswork.
 
 ## Components
 
 ### 1. [GNOME Desktop](./gnome/)
-- GNOME extensions configuration
-- Desktop customization
-- Panel and shell tweaks
-- Backup and restore scripts
+- GNOME 46 extensions and dconf backups
+- Yaru-blue-dark theme (prefer-dark)
+- Dash-to-Panel + ArcMenu + Vitals + Clipboard Indicator
+- Restore script for fresh installs
 
 ### 2. [Fish Shell](./fish/)
-- Fish shell installation and configuration
-- Custom aliases and abbreviations
-- fzf integration
-- Auto-completion setup
+- Fish 4.x with `~/.config/fish/config.fish`
+- Aliases for `claude` (with env flags) and `zellij`
+- Abbreviations: `cat`→`batcat`, `ls`→`eza`, `ll`, `za`, `zda`
+- Custom functions: `fcd`, `fe`, `fenv`, `fgb`, `fkill`, `vmclean`
+- Bun PATH wiring
 
 ### 3. [Ghostty Terminal](./ghostty/)
-- Ghostty terminal emulator setup
-- Theme configuration (Catppuccin Mocha)
-- Keybindings and customization
+- Ghostty (snap, edge channel) with Catppuccin Mocha
+- Windows-style copy/paste (Ctrl+C / Ctrl+V) with SIGINT fallthrough
+- 1 GB scrollback, focus-follows-mouse, copy-on-select to clipboard
 
 ### 4. [Zellij](./zellij/)
-- Terminal multiplexer installation
-- Session management
-- Configuration and keybindings
+- Zellij 0.44.1 (snap) with Catppuccin Mocha
+- Default shell: fish
+- Session serialization enabled
 
 ### 5. [CLI Tools](./cli-tools/)
-- Modern command-line replacements
-- fzf (fuzzy finder)
-- bat (better cat)
-- eza (better ls)
-- ripgrep, fd-find
+- `fzf`, `bat` (`batcat`), `eza`, `ripgrep`, `fd-find` (`fdfind`)
+- All wired into the Fish config via abbreviations
 
 ### 6. [Tailscale](./tailscale/)
-- VPN setup for remote access
-- SSH configuration
-- Mobile access with Terminus
+- Mesh VPN for SSH-from-anywhere (incl. mobile via Termius)
+- Tailscale SSH (`--ssh`) instead of manual key management
 
 ## Quick Start
 
 Each directory contains:
-- `README.md` - Detailed setup guide
-- Configuration files
-- Installation scripts (where applicable)
+- `README.md` — what is installed, why, and how to set it up
+- The actual config files copied from the live machine
+- Install / restore scripts where useful
 
 ## System Information
 
-- **OS**: Ubuntu 22.04 LTS (Noble)
-- **Desktop**: GNOME
-- **Shell**: Fish
-- **Terminal**: Ghostty
-- **Multiplexer**: Zellij
+- **OS**: Ubuntu 24.04 LTS (Noble)
+- **Kernel**: 6.17.x
+- **Desktop**: GNOME 46
+- **Shell**: Fish 4.x
+- **Terminal**: Ghostty (snap)
+- **Multiplexer**: Zellij 0.44.1 (snap)
+- **VM host**: VMware
 
 ## Setup Order
 
-1. GNOME Desktop configuration
-2. Fish shell
-3. Ghostty terminal
-4. CLI tools (fzf, bat, eza)
-5. Zellij
-6. Tailscale (for remote access)
+1. GNOME desktop tweaks + extensions
+2. Fish shell (and `chsh`)
+3. CLI tools (`fzf`, `bat`, `eza`, `rg`, `fd`)
+4. Ghostty terminal
+5. Zellij multiplexer
+6. Tailscale (for remote / mobile access)
 
 ---
 
-Created: November 2025
-Last Updated: November 2025
+Last updated: May 2026

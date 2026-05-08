@@ -1,288 +1,130 @@
 # Fish Shell Setup Guide
 
-Modern, user-friendly shell configuration with powerful features.
+Modern, user-friendly shell. Fish 4.x on Ubuntu 24.04.
 
 ## Installation
 
 ```bash
-# Install Fish shell
-sudo apt-add-repository ppa:fish-shell/release-3
+# Install Fish (Ubuntu 24.04 ships fish in the main repo, but the PPA is fresher)
+sudo apt-add-repository ppa:fish-shell/release-4
 sudo apt update
 sudo apt install fish
 
 # Set Fish as default shell
 chsh -s /usr/bin/fish
 
-# Logout and login for changes to take effect
+# Logout / login for the change to take effect
+fish --version  # should report 4.x
 ```
 
 ## Configuration
 
 ### Main Config File
 
-Location: `~/.config/fish/config.fish`
+Location: `~/.config/fish/config.fish` — see [`config.fish`](./config.fish) in this dir.
 
-```fish
-if status is-interactive
-    # Ensure ~/.local/bin is in PATH (for SSH sessions)
-    fish_add_path -p ~/.local/bin
-
-    # Aliases
-    alias c='clear'
-    alias cc='claude'
-
-    # fzf integration (Ctrl+R for history, Ctrl+T for files, Alt+C for cd)
-    source /usr/share/doc/fzf/examples/key-bindings.fish
-
-    # Abbreviations - expand on space
-    abbr -a cat batcat   # bat: better cat with syntax highlighting
-    abbr -a ls eza       # eza: better ls with colors
-    abbr -a ll 'eza -lah --git'  # ll: detailed list with git status
-    abbr -a zj 'zellij attach -c default'  # zellij: attach or create session
-end
-```
+Highlights:
+- Prepends `~/.local/bin` to `PATH` (needed for SSH sessions where the default Fish login PATH doesn't include it — fixes `claude` not being found over SSH).
+- Exports Claude Code env flags so plain `claude` and the `cc` alias both behave the same.
+- Aliases `cc` to `claude --effort max` with the same env block re-asserted via `env`.
+- Aliases `zj` to `zellij` (just shorter to type).
+- Sources fzf key-bindings.
+- Defines abbreviations that expand on space.
+- Wires `~/.bun/bin` into `PATH` for Bun-installed CLIs (e.g. `codex`).
 
 ### Setup Instructions
 
 ```bash
-# Create Fish config directory
+# Create Fish config directories
 mkdir -p ~/.config/fish/functions
 
-# Copy config file
+# Copy config + functions
 cp config.fish ~/.config/fish/config.fish
-
-# Copy all custom functions
 cp functions/*.fish ~/.config/fish/functions/
 
-# Reload Fish config
+# Reload current shell
 source ~/.config/fish/config.fish
 ```
 
-## Features
+## Aliases & Abbreviations
 
-### 1. Auto-suggestions
+### Aliases
 
-Fish shows suggestions based on command history as you type (gray text).
+| Alias    | Command                                                | Description                                  |
+|----------|--------------------------------------------------------|----------------------------------------------|
+| `c`      | `clear`                                                | Clear terminal                               |
+| `cc`     | `env CLAUDE_CODE_NO_FLICKER=1 … claude --effort max`   | Claude Code with max-effort + perf env flags |
+| `zj`     | `zellij`                                               | Shorter zellij alias                         |
+| `tmuxrs` | `tmux kill-server`                                     | Kill any leftover tmux server                |
 
-- **Accept suggestion**: Press `→` (Right Arrow) or `Ctrl+F`
-- **Accept one word**: Press `Alt+→`
-- **Ignore**: Keep typing
+### Abbreviations (expand on space)
 
-### 2. Tab Completion
+| Abbreviation | Expands To           | Description                          |
+|--------------|----------------------|--------------------------------------|
+| `cat`        | `batcat`             | Syntax-highlighted cat               |
+| `ls`         | `eza`                | Modern ls replacement                |
+| `ll`         | `eza -lah --git`     | Detailed list with git status        |
+| `za`         | `zellij attach`      | Attach to a zellij session           |
+| `zda`        | `zellij da -y`       | Delete all zellij sessions (force)   |
 
-Intelligent tab completion with descriptions.
+### Claude Code env vars
 
-- Press `Tab` to complete or show options
-- Press `Tab` again to cycle through options
-- Works for commands, files, git branches, and more
+- `CLAUDE_CODE_NO_FLICKER=1` — disables the redraw flicker that VMware sometimes shows.
+- `CLAUDE_AUTO_BACKGROUND_TASKS=1` — auto-runs background tasks without prompting.
+- `CLAUDE_CODE_DISABLE_FEEDBACK_SURVEY=1` — suppresses the periodic feedback survey.
 
-### 3. Syntax Highlighting
+## fzf Integration
 
-Commands are highlighted as you type:
-- **Green**: Valid command
-- **Red**: Invalid/not found
-- **Blue**: File paths
-
-### 4. Abbreviations
-
-Type abbreviation → press `Space` → expands automatically.
-
-| Abbreviation | Expands To | Description |
-|--------------|-----------|-------------|
-| `cat` | `batcat` | Syntax-highlighted cat |
-| `ls` | `eza` | Modern ls replacement |
-| `ll` | `eza -lah --git` | Detailed list with git status |
-| `zj` | `zellij attach -c default` | Attach to zellij session |
-
-### 5. Aliases
-
-| Alias | Command | Description |
-|-------|---------|-------------|
-| `c` | `clear` | Clear terminal |
-| `cc` | `claude` | Claude Code CLI |
-
-### 6. fzf Integration
-
-Fuzzy finder for interactive searching.
-
-| Keybinding | Action |
-|------------|--------|
-| `Ctrl+R` | Search command history |
-| `Ctrl+T` | Search files |
-| `Alt+C` | Search and cd to directory |
+| Keybinding | Action                          |
+|------------|---------------------------------|
+| `Ctrl+R`   | Search command history          |
+| `Ctrl+T`   | Search files                    |
+| `Alt+C`    | Search and `cd` into directory  |
 
 ## Custom Functions
 
-Fish functions are auto-loaded from `~/.config/fish/functions/`.
+Auto-loaded from `~/.config/fish/functions/`. See [`functions/`](./functions/).
 
-### fcd - Fuzzy Directory Change
+| Function   | Description                                                          |
+|------------|----------------------------------------------------------------------|
+| `fcd`      | Fuzzy-find a directory and `cd` into it (eza tree preview)           |
+| `fe`       | Fuzzy-find a file and open it in `$EDITOR` (bat preview)             |
+| `fenv`     | Fuzzy-search environment variables                                   |
+| `fgb`      | Fuzzy-checkout git branch (with `git log` preview)                   |
+| `fkill`    | Fuzzy-find and kill processes                                        |
+| `vmclean`  | Reset stale MCP/Chrome state and report VM health                    |
 
-```fish
-fcd  # Fuzzy find and cd into any directory
-```
+### vmclean
 
-Uses fzf to search all directories with eza preview.
+Quick health-check for the VM:
 
-### fe - Fuzzy Edit
+1. Kills lingering MCP processes (`chrome-devtools-mcp`, `playwright-mcp`, `context7-mcp`).
+2. Lists the top 15 RSS-heavy processes.
+3. Prints `free -h`, `uptime`, and `gnome-shell` RSS so you can decide whether to log out / log back in.
 
-```fish
-fe  # Fuzzy find and edit file
-```
-
-Search files with bat preview, opens in $EDITOR.
-
-### fenv - Fuzzy Environment Variables
-
-```fish
-fenv  # Search environment variables
-```
-
-Browse and search all environment variables.
-
-### fgb - Fuzzy Git Branch
-
-```fish
-fgb  # Fuzzy checkout git branch
-```
-
-Interactive git branch selector with log preview.
-
-### fkill - Fuzzy Kill Process
-
-```fish
-fkill  # Fuzzy find and kill processes
-```
-
-Search and kill processes interactively.
-
-### zj - Zellij Session Manager
-
-```fish
-zj           # Attach to default session
-zj myname    # Attach to named session
-```
-
-Quick zellij session management.
-
-## Directory Navigation
-
-Fish has built-in directory history:
-
-```fish
-cd -        # Go to previous directory
-dirh        # Show directory history
-prevd       # Navigate backward (Alt+Left)
-nextd       # Navigate forward (Alt+Right)
-```
-
-## Command History
-
-```fish
-history         # Show all command history
-history search  # Search history
-history clear   # Clear history
-```
-
-Or use `Ctrl+R` for interactive fzf search!
-
-## Essential Keybindings
-
-| Keybinding | Action |
-|------------|--------|
-| `Ctrl+A` | Beginning of line |
-| `Ctrl+E` | End of line |
-| `Ctrl+K` | Delete to end of line |
-| `Ctrl+U` | Delete to beginning of line |
-| `Ctrl+W` | Delete word backward |
-| `Alt+Backspace` | Delete word backward |
-| `Ctrl+X Ctrl+E` | Edit command in $EDITOR |
-| `Alt+Up` | Search history with current token |
-| `Alt+Down` | Search history with current token |
-
-## PATH Management
-
-Fish provides `fish_add_path` for managing PATH:
-
-```fish
-# Add directory to PATH (prepend)
-fish_add_path -p ~/.local/bin
-
-# Add directory to PATH (append)
-fish_add_path ~/.my/custom/bin
-
-# Check PATH
-echo $PATH
-```
+Use it whenever the VM feels sluggish.
 
 ## SSH Sessions
 
-The configuration includes `fish_add_path -p ~/.local/bin` to ensure `~/.local/bin` is in PATH even for SSH sessions.
-
-This fixes issues where commands in `~/.local/bin` (like `claude`) aren't found when connecting remotely.
-
-## Tips
-
-1. **Universal Variables**: Set once, available everywhere
-   ```fish
-   set -U EDITOR nano  # Persists across sessions
-   ```
-
-2. **Function Definition**: Create functions on-the-fly
-   ```fish
-   function myfunction
-       echo "Hello!"
-   end
-   funcsave myfunction  # Save permanently
-   ```
-
-3. **Color Customization**: Fish has extensive color options
-   ```fish
-   set -U fish_color_command blue
-   set -U fish_color_param cyan
-   ```
-
-4. **Auto-completion for Custom Commands**: Fish learns from usage
-
-5. **Web-based Configuration**: Run `fish_config` for GUI configuration
+The `fish_add_path -p ~/.local/bin` at the top of `config.fish` is the critical line for SSH — without it, `~/.local/bin` is missing from `PATH` over SSH and `claude` won't be found (it's installed under `~/.local/share/claude/...` and symlinked into `~/.local/bin`).
 
 ## Troubleshooting
 
-### Config Not Loading
-
 ```fish
-# Check for syntax errors
+# Syntax check the config
 fish -n ~/.config/fish/config.fish
 
-# Reload config
+# Reload
 source ~/.config/fish/config.fish
-```
 
-### fzf Integration Issues
-
-```fish
-# Verify fzf keybindings file exists
-ls /usr/share/doc/fzf/examples/key-bindings.fish
-
-# If missing, install fzf
-sudo apt install fzf
-```
-
-### Abbreviations Not Working
-
-```fish
-# List all abbreviations
+# List active abbreviations
 abbr --show
 
-# Re-add abbreviation
-abbr -a cat batcat
+# Verify fzf integration file exists
+ls /usr/share/doc/fzf/examples/key-bindings.fish
 ```
 
-## Additional Resources
+## Resources
 
-- Fish Documentation: https://fishshell.com/docs/current/
-- Fish Tutorial: https://fishshell.com/docs/current/tutorial.html
-- Fish Community: https://github.com/fish-shell/fish-shell
-
----
-
-**Note**: Make sure to install dependencies (fzf, bat, eza, zellij) for full functionality.
+- Fish docs: https://fishshell.com/docs/current/
+- Fish tutorial: https://fishshell.com/docs/current/tutorial.html

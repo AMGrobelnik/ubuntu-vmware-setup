@@ -31,11 +31,23 @@ xkb-options=@as []
 [interface]
 color-scheme='prefer-dark'
 cursor-size=24
+enable-animations=false
 gtk-theme='Yaru-blue-dark'
 icon-theme='Yaru-blue'
+menubar-accel=''
+text-scaling-factor=1.7000000000000002
 
 [notifications]
-application-children=['gnome-initial-setup', 'org-gnome-fileroller', 'google-chrome', 'org-gnome-terminal-preferences', 'org-gnome-systemmonitor', 'org-gnome-extensions', 'org-gnome-settings']
+application-children=['gnome-initial-setup', 'org-gnome-fileroller', 'google-chrome', 'org-gnome-terminal-preferences', 'org-gnome-systemmonitor', 'org-gnome-extensions', 'org-gnome-settings', 'ghostty-ghostty', 'org-gnome-nautilus', 'firefox-firefox', 'code-code', 'org-wezfurlong-wezterm', 'org-gnome-texteditor', 'spotify-spotify', 'org-gnome-characters', 'org-flameshot-flameshot', 'org-gnome-dejadup', 'org-gnome-evince', 'org-gnome-baobab', 'org-gnome-eog', 'libreoffice-impress', 'onlyoffice-desktopeditors', 'opera', 'org-gnome-loupe', 'snapd-desktop-integration-snapd-desktop-integration']
+
+[notifications/application/code-code]
+application-id='code_code.desktop'
+
+[notifications/application/firefox-firefox]
+application-id='firefox_firefox.desktop'
+
+[notifications/application/ghostty-ghostty]
+application-id='ghostty_ghostty.desktop'
 
 [notifications/application/gnome-initial-setup]
 application-id='gnome-initial-setup.desktop'
@@ -43,11 +55,44 @@ application-id='gnome-initial-setup.desktop'
 [notifications/application/google-chrome]
 application-id='google-chrome.desktop'
 
+[notifications/application/libreoffice-impress]
+application-id='libreoffice-impress.desktop'
+
+[notifications/application/onlyoffice-desktopeditors]
+application-id='onlyoffice-desktopeditors.desktop'
+
+[notifications/application/opera]
+application-id='opera.desktop'
+
+[notifications/application/org-flameshot-flameshot]
+application-id='org.flameshot.Flameshot.desktop'
+
+[notifications/application/org-gnome-baobab]
+application-id='org.gnome.baobab.desktop'
+
+[notifications/application/org-gnome-characters]
+application-id='org.gnome.Characters.desktop'
+
+[notifications/application/org-gnome-dejadup]
+application-id='org.gnome.DejaDup.desktop'
+
+[notifications/application/org-gnome-eog]
+application-id='org.gnome.eog.desktop'
+
+[notifications/application/org-gnome-evince]
+application-id='org.gnome.Evince.desktop'
+
 [notifications/application/org-gnome-extensions]
 application-id='org.gnome.Extensions.desktop'
 
 [notifications/application/org-gnome-fileroller]
 application-id='org.gnome.FileRoller.desktop'
+
+[notifications/application/org-gnome-loupe]
+application-id='org.gnome.Loupe.desktop'
+
+[notifications/application/org-gnome-nautilus]
+application-id='org.gnome.Nautilus.desktop'
 
 [notifications/application/org-gnome-settings]
 application-id='org.gnome.Settings.desktop'
@@ -58,7 +103,23 @@ application-id='org.gnome.SystemMonitor.desktop'
 [notifications/application/org-gnome-terminal-preferences]
 application-id='org.gnome.Terminal.Preferences.desktop'
 
+[notifications/application/org-gnome-texteditor]
+application-id='org.gnome.TextEditor.desktop'
+
+[notifications/application/org-wezfurlong-wezterm]
+application-id='org.wezfurlong.wezterm.desktop'
+
+[notifications/application/snapd-desktop-integration-snapd-desktop-integration]
+application-id='snapd-desktop-integration_snapd-desktop-integration.desktop'
+
+[notifications/application/spotify-spotify]
+application-id='spotify_spotify.desktop'
+
+[peripherals/keyboard]
+numlock-state=true
+
 [peripherals/mouse]
+accel-profile='flat'
 double-click=800
 
 [peripherals/touchpad]
@@ -77,3 +138,6 @@ idle-delay=uint32 0
 [wm/keybindings]
 maximize=@as []
 unmaximize=@as []
+
+[wm/preferences]
+focus-mode='sloppy'
